@@ -10,10 +10,9 @@ namespace PJATK_APBD_Cw7_s32101.Controllers;
 public class PCsController(ComputerMgmtDbContext db) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetAsync()
     {
-        var allFromDb = await db.PCs.Include(x => x.PCComponents)
-            .ThenInclude(x => x.Component)
+        var allFromDb = await db.PCs
             .ToListAsync(); //select * from PCs - jak masz 1 milion rekordów to rip
         
         return Ok(allFromDb.Select(x => new PCDto()
@@ -23,13 +22,26 @@ public class PCsController(ComputerMgmtDbContext db) : ControllerBase
             Weight =  x.Weight,
             CreatedAt =  x.CreatedAt,
             Stock =  x.Stock,
-            Warranty =   x.Warranty,
-            Components = x.PCComponents.Select(y => new PCComponentDto()
-            {
-                ComponentCode = y.ComponentCode,
-                ComponentName = y.Component.Name,
-                Amount = y.Amount
-            }).ToList()
+            Warranty =   x.Warranty
         }));
+    }
+
+    [HttpGet("{id:int}/components")]
+    public async Task<IActionResult> GetComponentsAsync(int id)
+    {
+        var pc = await db.PCs.Include(x => x.PCComponents)
+            .ThenInclude(x => x.Component)
+            .Where(p => p.Id == id)
+            .FirstOrDefaultAsync();
+        
+        if (pc == null)
+            return NotFound();
+        
+        return Ok(pc.PCComponents.Select(y => new PCComponentDto()
+        {
+            ComponentCode = y.ComponentCode,
+            ComponentName = y.Component.Name,
+            Amount = y.Amount
+        }).ToList());
     }
 }
