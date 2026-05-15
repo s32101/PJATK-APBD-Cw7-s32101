@@ -1,0 +1,12 @@
+namespace PJATK_APBD_Cw7_s32101.Models;
+
+public class Component
+{
+    public string Code { get; set; } = null!;
+
+    public string Name { get; set; } = null!;
+    public string Description { get; set; } = null!;
+    
+    public int ComponentManufacturersId { get; set; }
+    public int ComponentTypesId { get; set; }
+}
