@@ -8,5 +8,5 @@ public class ComponentManufacturer
     public string FullName { get; set; } = null!;
     public DateTime FoundationDate { get; set; }
 
-    public virtual Component Component { get; set; } = null!;
+    public virtual ICollection<Component> Components { get; set; } = null!;
 }

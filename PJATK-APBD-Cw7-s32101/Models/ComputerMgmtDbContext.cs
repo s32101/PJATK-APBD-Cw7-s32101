@@ -23,6 +23,10 @@ public class ComputerMgmtDbContext(DbContextOptions<ComputerMgmtDbContext> optio
 
             entity.Property(s => s.Weight)
                 .HasColumnType("float(5)");
+            
+            entity.HasMany(s => s.PCComponents)
+                .WithOne(s => s.PC)
+                .HasForeignKey(s => s.PCId);
         });
         
         modelBuilder.Entity<ComponentType>(entity =>
@@ -37,6 +41,10 @@ public class ComputerMgmtDbContext(DbContextOptions<ComputerMgmtDbContext> optio
             entity.Property(s => s.Name)
                 .HasMaxLength(150)
                 .IsRequired();
+
+            entity.HasMany(s => s.Components)
+                .WithOne(s => s.ComponentType)
+                .HasForeignKey(s => s.ComponentTypesId);
         });
         
         modelBuilder.Entity<ComponentManufacturer>(entity =>
@@ -51,6 +59,10 @@ public class ComputerMgmtDbContext(DbContextOptions<ComputerMgmtDbContext> optio
             entity.Property(s => s.FullName)
                 .HasMaxLength(300)
                 .IsRequired();
+            
+            entity.HasMany(s => s.Components)
+                .WithOne(s => s.ComponentManufacturer)
+                .HasForeignKey(s => s.ComponentManufacturersId);
         });
         
         modelBuilder.Entity<Component>(entity =>
@@ -66,6 +78,10 @@ public class ComputerMgmtDbContext(DbContextOptions<ComputerMgmtDbContext> optio
             
             entity.Property(s => s.Description)
                 .HasColumnType("nvarchar(max)");
+            
+            entity.HasMany(s => s.PCComponents)
+                .WithOne(s => s.Component)
+                .HasForeignKey(s => s.ComponentCode);
         });
         
         modelBuilder.Entity<PCComponent>(entity =>

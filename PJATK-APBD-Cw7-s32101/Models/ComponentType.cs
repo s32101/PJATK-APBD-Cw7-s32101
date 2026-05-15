@@ -8,5 +8,5 @@ public class ComponentType
     
     public string Name { get; set; }  = null!;
     
-    public virtual Component Component { get; set; } = null!;
+    public virtual ICollection<Component> Components { get; set; } = null!;
 }
