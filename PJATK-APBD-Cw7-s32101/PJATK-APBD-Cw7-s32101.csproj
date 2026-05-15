@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>PJATK_APBD_Cw7_s32101</RootNamespace>
+        <UserSecretsId>9464bad4-83bd-4a66-9483-9190ebd4bf0e</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
