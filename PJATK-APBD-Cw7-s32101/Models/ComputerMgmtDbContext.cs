@@ -27,8 +27,28 @@ public class ComputerMgmtDbContext(DbContextOptions<ComputerMgmtDbContext> optio
             entity.HasMany(s => s.PCComponents)
                 .WithOne(s => s.PC)
                 .HasForeignKey(s => s.PCId);
+
+            entity.HasData(
+                new PC()
+                {
+                    Id = 1,
+                    Name = "Gaming Beast",
+                    Weight = 12.5f
+                },
+                new PC()
+                {
+                    Id = 2,
+                    Name = "Office Pro",
+                    Weight = 8.2f
+                },
+                new PC()
+                {
+                    Id = 3,
+                    Name = "Mini Workstation",
+                    Weight = 6.7f
+                });
         });
-        
+
         modelBuilder.Entity<ComponentType>(entity =>
         {
             entity.ToTable("ComponentTypes");
@@ -45,28 +65,28 @@ public class ComputerMgmtDbContext(DbContextOptions<ComputerMgmtDbContext> optio
             entity.HasMany(s => s.Components)
                 .WithOne(s => s.ComponentType)
                 .HasForeignKey(s => s.ComponentTypesId);
-            
+
             entity.HasData(
                 new ComponentType()
                 {
                     Id = 1,
-                    Abbreviation = "MC",
-                    Name = "Memory Card"
+                    Abbreviation = "RAM",
+                    Name = "Random Access Memory"
                 },
                 new ComponentType()
                 {
                     Id = 2,
-                    Abbreviation = "GC",
+                    Abbreviation = "GPU",
                     Name = "Graphics Card"
                 },
                 new ComponentType()
                 {
                     Id = 3,
-                    Abbreviation = "PCS",
+                    Abbreviation = "CPU",
                     Name = "Processor"
                 });
         });
-        
+
         modelBuilder.Entity<ComponentManufacturer>(entity =>
         {
             entity.ToTable("ComponentManufacturers");
@@ -79,35 +99,35 @@ public class ComputerMgmtDbContext(DbContextOptions<ComputerMgmtDbContext> optio
             entity.Property(s => s.FullName)
                 .HasMaxLength(300)
                 .IsRequired();
-            
+
             entity.HasMany(s => s.Components)
                 .WithOne(s => s.ComponentManufacturer)
                 .HasForeignKey(s => s.ComponentManufacturersId);
-            
+
             entity.HasData(
-                new ComponentManufacturer(){
+                new ComponentManufacturer()
+                {
                     Id = 1,
                     FullName = "Super Computers",
-                    Abbreviation = "SP",
+                    Abbreviation = "SC",
                     FoundationDate = new DateTime(2000, 1, 1),
-                    
                 },
                 new ComponentManufacturer()
                 {
-                    Id = 1,
-                    FullName = "Super Bad Computers",
-                    Abbreviation = "SBP",
-                    FoundationDate = new DateTime(1995, 2, 1),
+                    Id = 2,
+                    FullName = "Tech Masters",
+                    Abbreviation = "TM",
+                    FoundationDate = new DateTime(1995, 5, 15),
                 },
                 new ComponentManufacturer()
                 {
-                    Id = 1,
-                    FullName = "Great Manufacturer",
-                    Abbreviation = "GM",
-                    FoundationDate = new DateTime(2005, 3, 1),
+                    Id = 3,
+                    FullName = "Future Electronics",
+                    Abbreviation = "FE",
+                    FoundationDate = new DateTime(2010, 9, 20),
                 });
         });
-        
+
         modelBuilder.Entity<Component>(entity =>
         {
             entity.ToTable("Components");
@@ -118,32 +138,41 @@ public class ComputerMgmtDbContext(DbContextOptions<ComputerMgmtDbContext> optio
             entity.Property(s => s.Name)
                 .HasMaxLength(300)
                 .IsRequired();
-            
+
             entity.Property(s => s.Description)
                 .HasColumnType("nvarchar(max)");
-            
+
             entity.HasMany(s => s.PCComponents)
                 .WithOne(s => s.Component)
                 .HasForeignKey(s => s.ComponentCode);
-            
+
             entity.HasData(
-                new Component(){
+                new Component()
+                {
+                    Code = "RAM0000001",
+                    Name = "Corsair 16GB DDR4",
+                    Description = "16GB DDR4 RAM 3200MHz",
                     ComponentTypesId = 1,
-                    ComponentManufacturersId = 1,
-                    Description = "none",
-                    Name = "Graphic Card",
-                    Code = "123",
+                    ComponentManufacturersId = 1
                 },
                 new Component()
                 {
-                 
+                    Code = "GPU0000001",
+                    Name = "RTX 4060",
+                    Description = "NVIDIA graphics card",
+                    ComponentTypesId = 2,
+                    ComponentManufacturersId = 2
                 },
                 new Component()
                 {
-               
+                    Code = "CPU0000001",
+                    Name = "Intel i7 14700K",
+                    Description = "14th generation Intel processor",
+                    ComponentTypesId = 3,
+                    ComponentManufacturersId = 3
                 });
         });
-        
+
         modelBuilder.Entity<PCComponent>(entity =>
         {
             entity.ToTable("PCComponents");
@@ -154,19 +183,22 @@ public class ComputerMgmtDbContext(DbContextOptions<ComputerMgmtDbContext> optio
             entity.HasData(
                 new PCComponent()
                 {
-                    
+                    PCId = 1,
+                    ComponentCode = "GPU0000001",
+                    Amount = 1
                 },
                 new PCComponent()
                 {
-
+                    PCId = 1,
+                    ComponentCode = "RAM0000001",
+                    Amount = 2
                 },
                 new PCComponent()
                 {
-
+                    PCId = 2,
+                    ComponentCode = "CPU0000001",
+                    Amount = 1
                 });
         });
-        
-        
-        
     }
 }
