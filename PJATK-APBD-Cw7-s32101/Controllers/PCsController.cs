@@ -60,4 +60,26 @@ public class PCsController(ComputerMgmtDbContext db) : ControllerBase
         pcDto.Id = x.Entity.Id;
         return Ok(pcDto);
     }
+
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> PutAsync(int id, [FromBody] PCDto pcDto)
+    {
+        var pc = await db.PCs
+            .Where(p => p.Id == id)
+            .FirstOrDefaultAsync();
+        
+        if (pc == null)
+            return NotFound();
+        
+        pc.Name = pcDto.Name;
+        pc.CreatedAt = pcDto.CreatedAt;
+        pc.Stock = pcDto.Stock;
+        pc.Warranty = pcDto.Warranty;
+        pc.Weight = pcDto.Weight;
+        db.Update(pc);
+        await db.SaveChangesAsync();
+        
+        pcDto.Id = pc.Id;
+        return Ok(pcDto);
+    }
 }
