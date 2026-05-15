@@ -44,4 +44,20 @@ public class PCsController(ComputerMgmtDbContext db) : ControllerBase
             Amount = y.Amount
         }).ToList());
     }
+
+    [HttpPost]
+    public async Task<IActionResult> PostAsync([FromBody] PCDto pcDto)
+    {
+        var x= await db.PCs.AddAsync(new PC
+        {
+            Name = pcDto.Name,
+            CreatedAt = pcDto.CreatedAt,
+            Stock = pcDto.Stock,
+            Warranty = pcDto.Warranty,
+            Weight = pcDto.Weight
+        });
+        await db.SaveChangesAsync();
+        pcDto.Id = x.Entity.Id;
+        return Ok(pcDto);
+    }
 }
