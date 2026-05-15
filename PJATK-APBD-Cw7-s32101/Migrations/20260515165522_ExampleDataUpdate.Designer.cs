@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PJATK_APBD_Cw7_s32101.Models;
 
@@ -11,9 +12,11 @@ using PJATK_APBD_Cw7_s32101.Models;
 namespace PJATK_APBD_Cw7_s32101.Migrations
 {
     [DbContext(typeof(ComputerMgmtDbContext))]
-    partial class ComputerMgmtDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260515165522_ExampleDataUpdate")]
+    partial class ExampleDataUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
