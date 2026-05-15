@@ -82,4 +82,19 @@ public class PCsController(ComputerMgmtDbContext db) : ControllerBase
         pcDto.Id = pc.Id;
         return Ok(pcDto);
     }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteAsync(int id)
+    {
+        var pc = await db.PCs
+            .Where(p => p.Id == id)
+            .FirstOrDefaultAsync();
+        
+        if (pc == null)
+            return NotFound();
+
+        db.PCs.Remove(pc);
+        await db.SaveChangesAsync();
+        return NoContent();
+    }
 }
