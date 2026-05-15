@@ -7,4 +7,6 @@ public class ComponentManufacturer
     public string Abbreviation { get; set; } = null!;
     public string FullName { get; set; } = null!;
     public DateTime FoundationDate { get; set; }
+
+    public virtual Component Component { get; set; } = null!;
 }
